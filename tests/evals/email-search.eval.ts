@@ -10,10 +10,13 @@ const providers: Array<{ provider: 'claude' | 'openai'; envKey: string }> = [
 
 describe('eval: email search', () => {
   for (const p of providers) {
-    it.skipIf(!process.env[p.envKey])(`${p.provider} selects person_search with emails`, async () => {
-      const call = await ask({ provider: p.provider, prompt: PROMPT });
-      expect(call?.name).toBe('person_search');
-      expect((call?.input as { emails?: string[] }).emails).toEqual(['jsmith@example.com']);
-    });
+    it.skipIf(!process.env[p.envKey])(
+      `${p.provider} selects person_search with emails`,
+      async () => {
+        const call = await ask({ provider: p.provider, prompt: PROMPT });
+        expect(call?.name).toBe('person_search');
+        expect((call?.input as { emails?: string[] }).emails).toEqual(['jsmith@example.com']);
+      },
+    );
   }
 });

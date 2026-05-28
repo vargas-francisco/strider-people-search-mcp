@@ -115,7 +115,8 @@ export const listPrompts = (): PromptEntry[] => [
       { name: 'name', description: "Candidate's full name", required: true },
       { name: 'employer', description: 'Current or claimed employer', required: true },
     ],
-    render: (args) => screenCandidatePrompt({ name: args.name ?? '', employer: args.employer ?? '' }),
+    render: (args) =>
+      screenCandidatePrompt({ name: args.name ?? '', employer: args.employer ?? '' }),
   },
   {
     name: 'verify_identity',

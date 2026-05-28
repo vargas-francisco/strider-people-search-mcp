@@ -10,10 +10,13 @@ const providers: Array<{ provider: 'claude' | 'openai'; envKey: string }> = [
 
 describe('eval: linkedin search', () => {
   for (const p of providers) {
-    it.skipIf(!process.env[p.envKey])(`${p.provider} selects person_search with linkedin`, async () => {
-      const call = await ask({ provider: p.provider, prompt: PROMPT });
-      expect(call?.name).toBe('person_search');
-      expect((call?.input as { linkedin?: string }).linkedin).toMatch(/jane-doe-42/);
-    });
+    it.skipIf(!process.env[p.envKey])(
+      `${p.provider} selects person_search with linkedin`,
+      async () => {
+        const call = await ask({ provider: p.provider, prompt: PROMPT });
+        expect(call?.name).toBe('person_search');
+        expect((call?.input as { linkedin?: string }).linkedin).toMatch(/jane-doe-42/);
+      },
+    );
   }
 });

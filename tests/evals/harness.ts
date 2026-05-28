@@ -54,10 +54,7 @@ export const askClaude = async (
   return null;
 };
 
-export const askOpenAI = async (
-  prompt: string,
-  modelId = 'gpt-4.1',
-): Promise<ToolCall | null> => {
+export const askOpenAI = async (prompt: string, modelId = 'gpt-4.1'): Promise<ToolCall | null> => {
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const { openai } = toolDefs();
   const res = await client.chat.completions.create({
