@@ -29,13 +29,16 @@ See `docs/tool-reference.md` for full input/output schemas.
 
 ## Quick start
 
-### Hosted (recommended)
+### Hosted (planned)
 
-The maintainer hosts a public instance at:
+Once deployed to Fly.io, the hosted instance will be available at:
 
 ```
 https://strider-people-search-mcp.fly.dev/mcp
 ```
+
+> **Note:** the hosted URL above is not yet live. See `docs/deploy-flyio.md` to
+> deploy your own instance, or use the self-hosted stdio mode below.
 
 You need a Strider Auth0 M2M JWT with the `read:all-sentry` scope (and optionally
 `read:falsified-resumes` for resume features). See `docs/auth.md`.

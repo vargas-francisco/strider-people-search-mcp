@@ -1,3 +1,4 @@
+import { pathToFileURL } from 'node:url';
 import express, { Request, Response } from 'express';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
@@ -115,7 +116,8 @@ const main = async (): Promise<void> => {
   });
 };
 
-if (process.argv[1]?.includes('http.')) {
+const entrypoint = process.argv[1] ? pathToFileURL(process.argv[1]).href : undefined;
+if (entrypoint === import.meta.url) {
   main().catch((e) => {
     process.stderr.write(`fatal: ${(e as Error).stack ?? e}\n`);
     process.exit(1);
