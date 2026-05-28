@@ -17,7 +17,10 @@ export const resumeCheckGetStatus = async (
 ): Promise<ToolResult<ResumeStatusData>> => {
   const parsed = inputSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: 'invalid_input', message: parsed.error.issues.map((i) => i.message).join('; ') };
+    return {
+      error: 'invalid_input',
+      message: parsed.error.issues.map((i) => i.message).join('; '),
+    };
   }
   try {
     const snap = await runtime.client.getResumeStatus(parsed.data.resume_check_job_id);

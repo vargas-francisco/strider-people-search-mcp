@@ -29,7 +29,7 @@ export const loadConfig = (): Config => ({
   httpPort: intEnv('MCP_HTTP_PORT', 3000),
   pollTimeoutMs: intEnv('MCP_POLL_TIMEOUT_MS', 90_000),
   pollIntervalMs: intEnv('MCP_POLL_INTERVAL_MS', 1_500),
-  logLevel: (strEnv('LOG_LEVEL', 'info') as Config['logLevel']),
+  logLevel: strEnv('LOG_LEVEL', 'info') as Config['logLevel'],
   auth0Token: process.env.STRIDER_AUTH0_TOKEN,
   auth0TokenUrl: process.env.STRIDER_AUTH0_TOKEN_URL,
   auth0Audience: process.env.STRIDER_AUTH0_AUDIENCE,
