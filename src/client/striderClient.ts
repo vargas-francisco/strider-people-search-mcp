@@ -50,10 +50,28 @@ export const createStriderClient = (opts: StriderClientOptions): StriderClient =
 
   return {
     async startPersonSearch(input) {
-      const body = {
-        ...input,
-        upload_resume_file: input.include_resume_check === true,
+      // Build the canonical Tracer payload shape (matches the SPA's Filters.tsx).
+      // Tracer rejects unknown fields and requires `always_include_catchall: true`.
+      // All identification fields are sent with empty defaults rather than omitted,
+      // because Tracer's validation expects the keys to be present.
+      const body: Record<string, unknown> = {
+        first_names: input.first_names ?? [],
+        middle_names: input.middle_names ?? [],
+        last_name: input.last_name ?? '',
+        linkedin: input.linkedin ?? '',
+        emails: input.emails ?? [],
+        orcid: input.orcid ?? '',
+        organizations: input.organizations ?? [],
+        educations: input.educations ?? [],
+        always_include_catchall: true,
       };
+      if (input.native_name) {
+        body.native_name = input.native_name;
+      }
+      if (input.include_resume_check && input.resume_file) {
+        body.upload_resume_file = true;
+        body.resume_file = input.resume_file;
+      }
       const { data } = await http.post('/api/async/people-search', body);
       return {
         sentry_job_id: data?.sentryData?.data?.job_id,

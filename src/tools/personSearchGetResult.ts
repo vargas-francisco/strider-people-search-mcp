@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { jobIdSchema } from '../schemas/common.js';
 import { Runtime } from '../runtime.js';
-import { mapAxiosError, ToolResult } from '../envelope.js';
+import { mapAxiosError, safeAxiosErrorSummary, ToolResult } from '../envelope.js';
 
 const inputSchema = z.object({ job_id: jobIdSchema });
 
@@ -39,7 +39,7 @@ export const personSearchGetResult = async (
       retry_with: 'person_search_get_result',
     };
   } catch (e) {
-    runtime.logger.warn({ err: e }, 'getPersonSearchJob failed');
+    runtime.logger.warn({ err: safeAxiosErrorSummary(e) }, 'getPersonSearchJob failed');
     return mapAxiosError(e);
   }
 };

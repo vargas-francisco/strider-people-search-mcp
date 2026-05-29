@@ -1,6 +1,6 @@
 import { personSearchInputSchema, PersonSearchInput } from '../schemas/personSearch.js';
 import { Runtime } from '../runtime.js';
-import { mapAxiosError, ToolResult } from '../envelope.js';
+import { mapAxiosError, safeAxiosErrorSummary, ToolResult } from '../envelope.js';
 import { pollJob } from '../client/jobs.js';
 
 export interface PersonSearchData {
@@ -27,7 +27,7 @@ export const personSearch = async (
   try {
     start = await runtime.client.startPersonSearch(input);
   } catch (e) {
-    runtime.logger.warn({ err: e }, 'startPersonSearch failed');
+    runtime.logger.warn({ err: safeAxiosErrorSummary(e) }, 'startPersonSearch failed');
     return mapAxiosError(e);
   }
 

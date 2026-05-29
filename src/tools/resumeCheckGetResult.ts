@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { jobIdSchema } from '../schemas/common.js';
 import { Runtime } from '../runtime.js';
-import { mapAxiosError, ToolResult } from '../envelope.js';
+import { mapAxiosError, safeAxiosErrorSummary, ToolResult } from '../envelope.js';
 
 const inputSchema = z.object({ resume_check_job_id: jobIdSchema });
 
@@ -29,7 +29,7 @@ export const resumeCheckGetResult = async (
     const snap = await runtime.client.getResumeResults(parsed.data.resume_check_job_id);
     return { status: 'ok', data: snap };
   } catch (e) {
-    runtime.logger.warn({ err: e }, 'getResumeResults failed');
+    runtime.logger.warn({ err: safeAxiosErrorSummary(e) }, 'getResumeResults failed');
     return mapAxiosError(e);
   }
 };

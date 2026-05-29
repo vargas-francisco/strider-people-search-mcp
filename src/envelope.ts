@@ -36,6 +36,26 @@ interface AxiosLikeError {
 const isAxiosError = (e: unknown): e is AxiosLikeError =>
   typeof e === 'object' && e !== null && (e as AxiosLikeError).isAxiosError === true;
 
+/**
+ * Extract a small, safe summary of an axios error suitable for logging.
+ * The full axios error carries the request config (including the Bearer
+ * token) — never log it raw.
+ */
+export const safeAxiosErrorSummary = (
+  e: unknown,
+): { status?: number; method?: string; url?: string; message?: string } => {
+  if (!isAxiosError(e)) {
+    return { message: (e as { message?: string })?.message };
+  }
+  const cfg = (e as AxiosLikeError & { config?: { method?: string; url?: string } }).config;
+  return {
+    status: e.response?.status,
+    method: cfg?.method,
+    url: cfg?.url,
+    message: e.response?.data?.message ?? e.message,
+  };
+};
+
 export const mapAxiosError = (e: unknown): ToolError => {
   if (!isAxiosError(e)) {
     return { error: 'network', message: (e as { message?: string })?.message ?? 'network error' };
