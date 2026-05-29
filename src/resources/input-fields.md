@@ -22,8 +22,8 @@ disambiguates better with more signals.
 | `emails`        | string[]  | All known email addresses. Must be valid email format.               |
 | `linkedin`      | string    | LinkedIn URL or username (e.g., "linkedin.com/in/jdoe" or "jdoe").   |
 | `orcid`         | string    | ORCID identifier (researchers).                                      |
-| `organizations` | string[]  | Known employers/affiliations. Include past + present.                |
-| `educations`    | string[]  | Universities/schools attended.                                       |
+| `organizations` | string[] or object[] | Known employers/affiliations (past + present). Pass simple strings (`["Acme Corp"]`) or, for date-bounded affiliations, objects (`[{name: "Acme Corp", start_date: "2019-01", end_date: "2023-08"}]`). The MCP normalizes simple strings into the object form before sending. |
+| `educations`    | string[] or object[] | Universities/schools attended. Same string-or-object accepted as `organizations`. |
 
 ## Resume verification fields (optional)
 

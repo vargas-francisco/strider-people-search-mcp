@@ -9,6 +9,10 @@ export interface PersonSearchResultData {
   results: unknown[];
   job_id: string;
   url?: string;
+  match_found?: boolean;
+  has_risk?: boolean;
+  num_profiles?: number;
+  num_profiles_with_risk?: number;
 }
 
 export const personSearchGetResult = async (
@@ -27,7 +31,15 @@ export const personSearchGetResult = async (
     if (snap.status === 'processed') {
       return {
         status: 'ok',
-        data: { results: snap.results ?? [], job_id: snap.job_id, url: snap.url },
+        data: {
+          results: snap.results ?? [],
+          job_id: snap.job_id,
+          url: snap.url,
+          match_found: snap.match_found,
+          has_risk: snap.has_risk,
+          num_profiles: snap.num_profiles,
+          num_profiles_with_risk: snap.num_profiles_with_risk,
+        },
       };
     }
     if (snap.status === 'failed') {

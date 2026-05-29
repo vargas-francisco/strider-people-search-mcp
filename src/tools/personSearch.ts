@@ -8,6 +8,10 @@ export interface PersonSearchData {
   job_id: string;
   url?: string;
   search_inputs: PersonSearchInput;
+  match_found?: boolean;
+  has_risk?: boolean;
+  num_profiles?: number;
+  num_profiles_with_risk?: number;
 }
 
 export const personSearch = async (
@@ -48,6 +52,10 @@ export const personSearch = async (
         job_id: poll.value.job_id,
         url: poll.value.url,
         search_inputs: input,
+        match_found: poll.value.match_found,
+        has_risk: poll.value.has_risk,
+        num_profiles: poll.value.num_profiles,
+        num_profiles_with_risk: poll.value.num_profiles_with_risk,
       },
       resume_check_job_id: start.resume_check_job_id,
     };

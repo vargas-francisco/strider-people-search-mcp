@@ -63,6 +63,14 @@ export const mapAxiosError = (e: unknown): ToolError => {
   const status = e.response?.status;
   const message = e.response?.data?.message ?? e.message ?? `HTTP ${status}`;
 
+  if (status === 400) {
+    return {
+      error: 'invalid_input',
+      message,
+      retry_hint:
+        'the upstream API rejected the request body; adjust inputs based on the message',
+    };
+  }
   if (status === 401) {
     return {
       error: 'auth_denied',
